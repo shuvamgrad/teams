@@ -1,43 +1,147 @@
+
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+<style>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+body {
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    padding: 40px;
+}
+h1{
+  font-size: 3em;
+  font-weight: 700;
+  color: #0099FF;
+}
+a{
+  color: #333399;
+}
+a:hover{
+  color: #FF0099;
+}
+
+.states {
+    stroke: #fff;
+    stroke-width:1px;
+}
+.states:hover{
+  opacity: .6;
+}
+
+.legendLinear text {
+    font-size: 12px;
+}
+.d3-tip {
+  line-height: 1;
+  padding: 12px;
+  background: rgba(43,43,43, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+</style>
+<body>
+
+    <div id="vis"></div>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+<!-- <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script> -->
+<!-- <script src="d3-legend.min.js"></script> -->
+<!-- <script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script> -->
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+<!-- <script>
+
+var width = 900;
+    height = 700;
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-5, 0])
+  .html(function(d) {
+    console.log(d);
+    var dataRow = countryById.get(d.properties.name);
+       if (dataRow) {
+           console.log(dataRow);
+           return dataRow.states + ": " + dataRow.mortality;
+       } else {
+           console.log("no dataRow", d);
+           return d.properties.name + ": No data.";
+       }
+  })
+
+
+var svg = d3.select('#vis').append('svg')
+    .attr('width', width)
+ 	   .attr('height', height);
+
+svg.call(tip);
+
+var projection = d3.geo.albersUsa()
+    .scale(900) // mess with this if you want
+    .translate([width / 2, height / 2]);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var colorScale = d3.scale.linear().range(["#D4EEFF", "#0099FF"]).interpolate(d3.interpolateLab);
+
+var countryById = d3.map();
+
+// we use queue because we have 2 data files to load.
+queue()
+    .defer(d3.json, "USA.json")
+    .defer(d3.csv, "mortality.csv", typeAndSet) // process
+    .await(loaded);
+
+function typeAndSet(d) {
+    d.mortality = +d.mortality;
+    countryById.set(d.states, d);
+    return d;
+}
+
+function getColor(d) {
+    var dataRow = countryById.get(d.properties.name);
+    if (dataRow) {
+        console.log(dataRow);
+        return colorScale(dataRow.mortality);
+    } else {
+        console.log("no dataRow", d);
+        return "#ccc";
+    }
+}
+
+
+function loaded(error, usa, mortality) {
+
+    console.log(usa);
+    console.log(mortality);
+
+    colorScale.domain(d3.extent(mortality, function(d) {return d.mortality;}));
+
+    var states = topojson.feature(usa, usa.objects.units).features;
+
+    svg.selectAll('path.states')
+        .data(states)
+        .enter()
+        .append('path')
+        .attr('class', 'states')
+        .attr('d', path)
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide)
+        .attr('fill', function(d,i) {
+            console.log(d.properties.name);
+            return getColor(d);
+        })
+        .append("title");
+
+   
+
+}
+
+</script> -->
+</body>
 </html>

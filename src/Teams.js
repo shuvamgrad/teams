@@ -3,7 +3,7 @@ import axios from 'axios';
 
 class Teams extends React.Component {
 
-    state = { teams: [] };
+    // state = { teams: this.props.teamsArray };
     // const getTeams = async () => {
     //     var teamsFound = this.props.teams;
     //     var teamsArray = []
@@ -14,36 +14,43 @@ class Teams extends React.Component {
     //     console.log(teamsArray)
     //     return teamsArray;
     // }
-    componentDidMount() {
-        this.onTeamsList();
-        console.log('mount')
-    }
 
-    onTeamsList = async () => {
-        const teamDataArray = [];
-        const teamsFound = this.props.teams;
-        for(var key in teamsFound) {
-            const response = await axios.get(`http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/${teamsFound[key].id}`)
-            teamDataArray.push(response)
-        }
 
-        this.setState({ teams: teamDataArray })
-        console.log(this.state.teams)
+
+    // componentDidMount() {
+    //     this.onTeamsList();
+    //     console.log('mount')
+    // }
+
+    // onTeamsList = async () => {
+    //     const teamDataArray = [];
+    //     const teamsFound = this.state.teams;
+    //     for(var key in teamsFound) {
+    //         const response = await axios.get(`http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/${teamsFound[key].id}`)
+    //         teamDataArray.push(response)
+    //     }
+
+    //     this.setState({ teams: teamDataArray })
+    //     console.log(this.state.teams)
         
-    }
+    // }
 
 
     renderTeams() {
-       return this.state.teams.map(team => {
-            return (
-                    <div key={team.data.team.id}>
-                        <div>
-                            <h3>{team.data.team.displayName}</h3>
-                            <p>{team.data.team.standingSummary}</p>
+        console.log('teams data in Teams.js',this.props.teams);
+        if (this.props.teams) {
+            return this.props.teams.map(team => {
+                return (
+                        <div key={team.data.team.id}>
+                            <div>
+                                <h3>{team.data.team.displayName}</h3>
+                                <p>{team.data.team.standingSummary}</p>
+                            </div>
                         </div>
-                    </div>
-                )
-        });
+                    )
+            });
+        }
+       
         
         
         // async () => {
@@ -75,6 +82,7 @@ class Teams extends React.Component {
     }
 
     render() {
+        // this.onTeamsList();
         return (
             <div>{this.renderTeams()}</div>
         )
